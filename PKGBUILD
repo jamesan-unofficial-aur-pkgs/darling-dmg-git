@@ -2,7 +2,7 @@
 
 pkgname=darling-dmg-git
 _pkgname=${pkgname%-git}
-pkgver=1.0.3.r1.g1548289
+pkgver=1.0.4.r1.gb7ce87b
 pkgrel=1
 pkgdesc="FUSE module for .dmg files (containing an HFS+ filesystem)"
 arch=('i686' 'x86_64')
@@ -21,7 +21,7 @@ pkgver() {
   cd "$_pkgname"
   (
     set -o pipefail
-    git describe --long --tag | sed -r 's/([^-]*-g)/r\1/;s/-/./g;s/^v//' ||
+    git describe --long --tags 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g;s/^v//' ||
     printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
   )
 }
