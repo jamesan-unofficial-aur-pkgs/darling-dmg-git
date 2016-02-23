@@ -8,12 +8,10 @@ pkgdesc="FUSE module for .dmg files (containing an HFS+ filesystem)"
 arch=('i686' 'x86_64')
 url="http://www.darlinghq.org"
 license=('GPL3')
-depends=('fuse' 'icu' 'libxml2')
-makedepends=('git' 'boost')
+depends=('bzip2' 'fuse' 'icu' 'libxml2' 'openssl')
+makedepends=('cmake' 'git')
 provides=("$_pkgname=$pkgver")
 conflicts=("$_pkgname")
-options=()
-install=
 source=("$_pkgname"::"git+https://github.com/darlinghq/$_pkgname.git")
 md5sums=('SKIP')
 
@@ -26,25 +24,12 @@ pkgver() {
   )
 }
 
-prepare() {
-  cd "$_pkgname"
-
-  [ -d build ] \
-    && find build -mindepth 1 -delete \
-    || mkdir build
-}
-
 build() {
-    cd "$_pkgname/build"
+    cd $_pkgname
 
-    cmake -DWITH_TESTS=1 -DCMAKE_INSTALL_PREFIX=/usr ..
+    mkdir -p build && cd build
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
     make
-}
-
-check() {
-    cd "$_pkgname/build"
-
-    make -k test
 }
 
 package() {
