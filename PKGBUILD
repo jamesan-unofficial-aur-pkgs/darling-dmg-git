@@ -36,4 +36,5 @@ package() {
     cd "$_pkgname/build"
 
     make DESTDIR="$pkgdir/" install
+    install -Dm644 ../README.md "$pkgdir/usr/share/doc/$_pkgname/README.md"
 }
